@@ -1,0 +1,28 @@
+# Smithery.ai Configuration — Apify Actor Runtime MCP
+# Place this file at the ROOT of your GitHub repository
+
+startCommand:
+  type: stdio
+
+configSchema:
+  type: object
+  required:
+    - apifyToken
+  properties:
+    apifyToken:
+      type: string
+      description: "Your Apify API token. Get it free at https://console.apify.com/account/integrations"
+    walletAddress:
+      type: string
+      description: "Your A2A treasury wallet address for payment logging (optional)"
+      default: "0x_POWER_AGENT_TREASURY"
+
+commandFunction: |-
+  (config) => ({
+    command: "python",
+    args: ["APIFY_MCP.py"],
+    env: {
+      APIFY_TOKEN: config.apifyToken,
+      A2A_WALLET: config.walletAddress || "0x_POWER_AGENT_TREASURY"
+    }
+  })
